@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "928731133016",
+    "project_id": "auxie-19a65",
+    "storage_bucket": "auxie-19a65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928731133016:android:b7a93d146ba52f4445062d",
+        "android_client_info": {
+          "package_name": "com.yusuf.auxie_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928731133016-rqshp3urab8cnn8kk63b41dn3lp8h5ll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx6YO7zqkYcwm8eAtseO6xbiQq4rsZi3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928731133016-rqshp3urab8cnn8kk63b41dn3lp8h5ll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
