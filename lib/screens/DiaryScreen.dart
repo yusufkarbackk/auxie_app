@@ -2,9 +2,11 @@ import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:flutter/material.dart';
 import 'DiaryAddScreen.dart';
 import 'DiaryUpdateScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
+import '../bloc/blocs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/DiaryCard.dart';
+import '../bloc/page_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DiaryScreen extends StatefulWidget {
   @override
@@ -92,10 +94,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DiaryAddScreen())),
+                    onPressed: () {
+                      context.bloc<PageBloc>().add(GoToDiaryAddPage());
+                    },
                     child: Icon(Icons.add),
                   ),
                 )

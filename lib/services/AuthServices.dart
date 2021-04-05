@@ -21,12 +21,33 @@ class AuthServices {
       String password) async {
     try {
       auth.UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email, password: password); //creat auth account
 
-      User firebaseUser =
-          result.user.convertToUser(name: userName, phoneNumber: phoneNumber);
+      User firebaseUser = result.user.convertToUser(
+          name: userName,
+          phoneNumber:
+              phoneNumber); //firebaseUser extension for inserting signup data into user model
 
       await UserServices.updateUser(firebaseUser);
+      /*
+           call the updateUser function from UserServices to 
+           insert or update data to user's collection 
+           */
+      return firebaseUser;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  static Future<User> signIn(String email, String password) async {
+    try {
+      auth.UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password); // sign in with your account
+      User firebaseUser = await result.user.fromFireStore();
+      /* 
+        firbaseUser extension to get the user data
+      */
       return firebaseUser;
     } catch (e) {
       print(e.toString());

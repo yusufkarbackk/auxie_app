@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../shared/SharedStyle.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/QuickActButton.dart';
@@ -25,10 +26,12 @@ class MyHomePage extends StatelessWidget {
                       style: GoogleFonts.poppins(
                           textStyle:
                               TextStyle(fontSize: 22, color: Colors.black))),
-                  Text("Pertiwi",
-                      style: GoogleFonts.poppins(
-                          textStyle:
-                              TextStyle(fontSize: 28, color: Colors.black))),
+                  BlocBuilder<UserBloc, UserStat>(
+                    child: Text("Pertiwi",
+                        style: GoogleFonts.poppins(
+                            textStyle:
+                                TextStyle(fontSize: 28, color: Colors.black))),
+                  ),
                   SizedBox(
                     height: 10,
                   ),

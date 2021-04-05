@@ -1,12 +1,11 @@
 import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'DiaryScreen.dart';
+import '../models/Diary.dart';
 
 class DiaryAddScreen extends StatefulWidget {
-
-  var id;
+  final String id;
 
   DiaryAddScreen({this.id});
 
@@ -60,14 +59,9 @@ class _DiaryAddScreenState extends State<DiaryAddScreen> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    notes.add({
-                      "title": titleController.text,
-                      "body": bodyController.text
-                    });
-                    titleController.text = "";
-                    bodyController.text = "";
-                    Navigator.pop(context,
-                        MaterialPageRoute(builder: (context) => DiaryScreen()));
+                    Diary diary = Diary(
+                      userId: 
+                    );
                   },
                 )
               ],

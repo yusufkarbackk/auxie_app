@@ -57,9 +57,8 @@ class SplashPage extends StatelessWidget {
                             height: 50,
                             child: RaisedButton(
                               onPressed: () {
-                                context
-                                    .bloc<PageBloc>()
-                                    .add(GoToSignUpPage());
+                                context.bloc<PageBloc>().add(GoToSignUpPage());
+                                Colors.grey;
                               },
                               color: auxieOrange,
                               child: Center(

@@ -14,3 +14,11 @@ class OnMainPage extends PageState {}
 class OnSignUpPage extends PageState {}
 
 class OnSignInPage extends PageState {}
+
+class OnDiaryPage extends PageState {}
+
+class OnDiaryAddPage extends PageState {
+  final String id;
+
+  OnDiaryAddPage({this.id});
+}
