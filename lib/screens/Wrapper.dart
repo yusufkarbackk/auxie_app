@@ -2,6 +2,7 @@ import 'package:auxie_app/bloc/page_bloc.dart';
 import 'package:auxie_app/bloc/user_bloc.dart';
 import 'package:auxie_app/screens/DiaryAddScreen.dart';
 import 'package:auxie_app/screens/DiaryScreen.dart';
+import 'package:auxie_app/screens/DiaryUpdateScreen.dart';
 import '../screens/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class Wrapper extends StatelessWidget {
     if (firebaseUser == null) {
       context.bloc<PageBloc>().add(GoToSplashPage());
     } else {
-      context.bloc<UserBloc>().add(LoadUser(id: firebaseUser.uid));
-      context.bloc<PageBloc>().add(GoToMainPage());
+      context.bloc<UserBloc>().add(LoadUser(firebaseUser.uid));
+      context.bloc<PageBloc>().add(GoToMainPage(firebaseUser.uid));
     }
 
     return BlocBuilder<PageBloc, PageState>(
@@ -31,9 +32,14 @@ class Wrapper extends StatelessWidget {
                 : (pageState is OnSignInPage)
                     ? LoginPage()
                     : (pageState is OnDiaryPage)
-                        ? DiaryScreen()
+                        ? DiaryScreen(pageState.id)
                         : (pageState is OnDiaryAddPage)
-                            ? DiaryAddScreen(id: pageState.id)
-                            : MyHomePage());
+                            ? DiaryAddScreen(
+                                id: pageState.id,
+                              )
+                            : (pageState is OnDiaryUpdatepage)
+                                ? DiaryUpdateScreen(pageState.diary)
+                                : MyHomePage(id: firebaseUser.uid));
   }
 }
+               

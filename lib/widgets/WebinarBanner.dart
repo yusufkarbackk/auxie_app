@@ -1,7 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../shared/SharedStyle.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:bloc/bloc.dart';
 
 class WebinarBanner extends StatelessWidget {
   final String event;
@@ -18,7 +19,7 @@ class WebinarBanner extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Color(0XFF81b29a),
+        color: auxieBlue,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

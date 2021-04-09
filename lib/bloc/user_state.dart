@@ -9,5 +9,5 @@ class UserInitial extends UserState {}
 class UserLoaded extends UserState {
   final User user;
 
-  UserLoaded({this.user});
+  UserLoaded(this.user);
 }

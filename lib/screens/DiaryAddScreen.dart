@@ -1,8 +1,11 @@
+import 'package:auxie_app/bloc/user_bloc.dart';
 import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'DiaryScreen.dart';
 import '../models/Diary.dart';
+import '../services/DiaryServices.dart';
+import '../bloc/blocs.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DiaryAddScreen extends StatefulWidget {
   final String id;
@@ -14,7 +17,6 @@ class DiaryAddScreen extends StatefulWidget {
 }
 
 class _DiaryAddScreenState extends State<DiaryAddScreen> {
-  CollectionReference notes = FirebaseFirestore.instance.collection("notes");
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
   @override
@@ -58,10 +60,13 @@ class _DiaryAddScreenState extends State<DiaryAddScreen> {
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Diary diary = Diary(
-                      userId: 
-                    );
+                        userId: widget.id.toString(),
+                        body: bodyController.text,
+                        title: titleController.text);
+                    await DiaryServices.createDiary(diary);
+                    context.bloc<PageBloc>().add(GoToDiaryPage(widget.id));
                   },
                 )
               ],

@@ -7,7 +7,6 @@ import '../shared/SharedStyle.dart';
 class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PageBloc pageBloc = BlocProvider.of<PageBloc>(context);
     return Scaffold(
       backgroundColor: auxieBlue,
       body: SafeArea(

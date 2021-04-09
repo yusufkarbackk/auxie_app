@@ -18,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async* {
     if (event is LoadUser) {
       User user = await UserServices.getUser(event.id);
-      yield UserLoaded(user: user);
+      yield UserLoaded(user);
     }
   }
 }

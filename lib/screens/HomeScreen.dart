@@ -1,3 +1,5 @@
+import 'package:auxie_app/bloc/page_bloc.dart';
+import 'package:auxie_app/services/DiaryServices.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +10,12 @@ import '../widgets/WebinarBanner.dart';
 import 'CalmYourselfScreen.dart';
 import 'DiaryScreen.dart';
 import '../services/AuthServices.dart';
+import '../bloc/user_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
+  final String id;
+
+  MyHomePage({this.id});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +32,15 @@ class MyHomePage extends StatelessWidget {
                       style: GoogleFonts.poppins(
                           textStyle:
                               TextStyle(fontSize: 22, color: Colors.black))),
-                  BlocBuilder<UserBloc, UserStat>(
-                    child: Text("Pertiwi",
-                        style: GoogleFonts.poppins(
-                            textStyle:
-                                TextStyle(fontSize: 28, color: Colors.black))),
+                  BlocBuilder<UserBloc, UserState>(
+                    builder: (context, userState) {
+                      if (userState is UserLoaded) {
+                        return Text(userState.user.name,
+                            style: titledText.copyWith(fontSize: 26));
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -41,7 +51,7 @@ class MyHomePage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height / 4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Color(0XFF81b29a),
+                      color: auxieBlue,
                     ),
                     child: Align(
                         alignment: Alignment.center,
@@ -101,10 +111,10 @@ class MyHomePage extends StatelessWidget {
                               child: QuickActButton(
                                   action: "Your Diary",
                                   icon: Icons.book_rounded),
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DiaryScreen())),
+                              onTap: () async {
+                                context.bloc<PageBloc>().add(GoToDiaryPage(id));
+                                await DiaryServices.getDiaries(id);
+                              },
                             ),
                             SizedBox(width: 10),
                             QuickActButton(

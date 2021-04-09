@@ -1,15 +1,12 @@
 import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:flutter/material.dart';
 import 'DiaryScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
+import '../models/Diary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DiaryUpdateScreen extends StatefulWidget {
-  var diaryId;
-  var title;
-  var body;
-
-  DiaryUpdateScreen({this.diaryId, this.body, this.title});
+  final Diary diary;
+  DiaryUpdateScreen(this.diary);
 
   @override
   _DiaryUpdateScreenState createState() => _DiaryUpdateScreenState();
@@ -26,8 +23,8 @@ class _DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
   void initState() {
     super.initState();
 
-    titleController.text = widget.title.toString();
-    bodyController.text = widget.body.toString();
+    titleController.text = widget.diary.title.toString();
+    bodyController.text = widget.diary.body.toString();
   }
 
   @override
@@ -73,12 +70,15 @@ class _DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    notes.doc(widget.diaryId.toString()).update({
+                    notes.doc(widget.diary.userId.toString()).update({
                       "title": titleController.text,
                       "body": bodyController.text,
                     });
-                    Navigator.pop(context,
-                        MaterialPageRoute(builder: (context) => DiaryScreen()));
+                    Navigator.pop(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DiaryScreen(widget.diary.userId)));
                   },
                 )
               ],

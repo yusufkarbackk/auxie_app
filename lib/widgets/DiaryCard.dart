@@ -3,15 +3,14 @@ import '../shared/SharedStyle.dart';
 import '../screens/DiaryUpdateScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/Diary.dart';
 
 class DiaryCard extends StatelessWidget {
-  var diaryId;
-  var title;
-  var body;
-  Function onEdit;
-  Function onDelete;
+  final Diary diary;
+  final Function onEdit;
+  final Function onDelete;
 
-  DiaryCard({this.body, this.diaryId, this.title, this.onDelete, this.onEdit});
+  DiaryCard({this.diary, this.onDelete, this.onEdit});
   CollectionReference notes = FirebaseFirestore.instance.collection("notes");
 
   @override
@@ -24,7 +23,7 @@ class DiaryCard extends StatelessWidget {
           color: auxieGreen,
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title,
+        Text(diary.title,
             style: titledText.copyWith(color: auxieWhite),
             maxLines: 5,
             overflow: TextOverflow.ellipsis),
@@ -33,7 +32,7 @@ class DiaryCard extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            body,
+            diary.body,
             style: plainText.copyWith(color: auxieWhite),
             maxLines: 5,
             overflow: TextOverflow.ellipsis,

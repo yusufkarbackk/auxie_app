@@ -16,7 +16,7 @@ class QuickActButton extends StatelessWidget {
           width: 50,
           height: 50,
           decoration: BoxDecoration(
-              color: auxieOrange,
+              color: auxieBlue,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Center(
               child: Icon(

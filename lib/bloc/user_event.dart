@@ -6,5 +6,5 @@ abstract class UserEvent {}
 class LoadUser extends UserEvent {
   final String id;
 
-  LoadUser({this.id});
+  LoadUser(this.id);
 }

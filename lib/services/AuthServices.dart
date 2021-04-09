@@ -40,7 +40,8 @@ class AuthServices {
     }
   }
 
-  static Future<User> signIn(String email, String password) async {
+  static Future<SignInSignUpResult> signIn(
+      String email, String password) async {
     try {
       auth.UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password); // sign in with your account
@@ -48,10 +49,10 @@ class AuthServices {
       /* 
         firbaseUser extension to get the user data
       */
-      return firebaseUser;
+      return SignInSignUpResult(user: firebaseUser);
     } catch (e) {
       print(e.toString());
-      return null;
+      return SignInSignUpResult(message: e.toString().split(',')[1]);
     }
   }
 
@@ -60,4 +61,11 @@ class AuthServices {
   }
 
   static Stream<auth.User> get firbaseUserStream => _auth.authStateChanges();
+}
+
+class SignInSignUpResult {
+  final User user;
+  final String message;
+
+  SignInSignUpResult({this.message, this.user});
 }
