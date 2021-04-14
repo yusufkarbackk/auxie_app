@@ -1,7 +1,6 @@
 import 'package:auxie_app/services/DiaryServices.dart';
 import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:flutter/material.dart';
-import 'DiaryUpdateScreen.dart';
 import '../bloc/blocs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/DiaryCard.dart';
@@ -41,8 +40,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 children: [
                   ListView(
                     children: [
-                      FutureBuilder<List<Diary>>(
-                          future: DiaryServices.getDiaries(widget.id),
+                      StreamBuilder<QuerySnapshot>(
+                          stream: DiaryServices.getDiaries(widget.id),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
                               return Container(
@@ -51,13 +50,45 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                 ),
                               );
                             } else if (snapshot.hasData) {
-                              if (snapshot.data.length == 0) {
+                              if (snapshot.data.size == 0) {
                                 return Center(
                                   child: Text("still empty"),
                                 );
                               } else {
-                                return getDiaryList(snapshot.data,
-                                    MediaQuery.of(context).size.width - 2 * 24);
+                                return Column(
+                                    children: snapshot.data.docs
+                                        .map((diary) => Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 15),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  context.bloc<PageBloc>().add(
+                                                      GoToDiaryShowPage(
+                                                          diary.id, widget.id));
+                                                },
+                                                child: DiaryCard(
+                                                  title: diary.data()["title"],
+                                                  body: diary.data()["body"],
+                                                  onEdit: () {
+                                                    context.bloc<PageBloc>().add(
+                                                        GoToDiaryUpdatePage(
+                                                            userId: widget.id,
+                                                            diaryId: diary.id,
+                                                            diaryTitle:
+                                                                diary.data()[
+                                                                    "title"],
+                                                            diaryBody:
+                                                                diary.data()[
+                                                                    "body"]));
+                                                  },
+                                                  onDelete: () {
+                                                    DiaryServices.deleteDiary(
+                                                        diary.id);
+                                                  },
+                                                ),
+                                              ),
+                                            ))
+                                        .toList());
                               }
                             }
                             return Container(
@@ -71,11 +102,15 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FloatingActionButton(
+                      backgroundColor: auxieGreen,
                       onPressed: () {
-                        context.bloc<PageBloc>().add(
-                            GoToDiaryAddPage(id: diaries.doc().toString()));
+                        context
+                            .bloc<PageBloc>()
+                            .add(GoToDiaryAddPage(id: widget.id));
                       },
-                      child: Icon(Icons.add),
+                      child: Icon(
+                        Icons.add,
+                      ),
                     ),
                   )
                 ],
@@ -87,17 +122,21 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  Column getDiaryList(List<Diary> diaries, double width) {
+  Column getDiaryList(List diaries, double width) {
     return Column(
         children: diaries
             .map((diary) => Padding(
                   padding: EdgeInsets.only(bottom: 15),
                   child: DiaryCard(
-                    diary: diary,
                     onEdit: () {
-                      context.bloc<PageBloc>().add(GoToDiaryUpdatePage(
-                            diary: diary,
-                          ));
+                      DiaryServices.diaryCollection.doc(diary.id).update({
+                        "title": titleController.text,
+                        "body": bodyController.text
+                      });
+                    },
+                    onDelete: () {
+                      var diaryId = DiaryServices.diaryCollection.id;
+                      DiaryServices.deleteDiary(diaryId);
                     },
                   ),
                 ))

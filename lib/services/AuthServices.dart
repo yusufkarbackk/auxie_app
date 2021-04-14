@@ -17,8 +17,8 @@ class AuthServices {
     }
   }
 
-  static Future<User> signUp(String userName, String email, String phoneNumber,
-      String password) async {
+  static Future<SignInSignUpResult> signUp(String userName, String email,
+      String phoneNumber, String password) async {
     try {
       auth.UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password); //creat auth account
@@ -33,7 +33,7 @@ class AuthServices {
            call the updateUser function from UserServices to 
            insert or update data to user's collection 
            */
-      return firebaseUser;
+      return SignInSignUpResult(user: firebaseUser);
     } catch (e) {
       print(e.toString());
       return null;

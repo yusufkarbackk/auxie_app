@@ -113,7 +113,6 @@ class MyHomePage extends StatelessWidget {
                                   icon: Icons.book_rounded),
                               onTap: () async {
                                 context.bloc<PageBloc>().add(GoToDiaryPage(id));
-                                await DiaryServices.getDiaries(id);
                               },
                             ),
                             SizedBox(width: 10),

@@ -2,6 +2,7 @@ import 'package:auxie_app/bloc/page_bloc.dart';
 import 'package:auxie_app/bloc/user_bloc.dart';
 import 'package:auxie_app/screens/DiaryAddScreen.dart';
 import 'package:auxie_app/screens/DiaryScreen.dart';
+import 'package:auxie_app/screens/DiaryShowScreen.dart';
 import 'package:auxie_app/screens/DiaryUpdateScreen.dart';
 import '../screens/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,8 +39,13 @@ class Wrapper extends StatelessWidget {
                                 id: pageState.id,
                               )
                             : (pageState is OnDiaryUpdatepage)
-                                ? DiaryUpdateScreen(pageState.diary)
-                                : MyHomePage(id: firebaseUser.uid));
+                                ? DiaryUpdateScreen(
+                                    pageState.diaryTitle,
+                                    pageState.diaryBody,
+                                    pageState.diaryId,
+                                    pageState.userId)
+                                : (pageState is OnDiaryShowPage)
+                                    ? DiaryShowScreen(pageState.diaryId, pageState.userId)
+                                    : MyHomePage(id: firebaseUser.uid));
   }
 }
-               

@@ -28,7 +28,13 @@ class PageBloc extends Bloc<PageEvent, PageState> {
     } else if (event is GoToDiaryAddPage) {
       yield OnDiaryAddPage(id: event.id);
     } else if (event is GoToDiaryUpdatePage) {
-      yield OnDiaryUpdatepage(diary: event.diary);
+      yield OnDiaryUpdatepage(
+          diaryTitle: event.diaryTitle,
+          diaryBody: event.diaryBody,
+          diaryId: event.diaryId,
+          userId: event.userId);
+    } else if (event is GoToDiaryShowPage) {
+      yield OnDiaryShowPage(event.diaryId, event.userId);
     }
   }
 }

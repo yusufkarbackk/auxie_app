@@ -32,7 +32,18 @@ class OnDiaryAddPage extends PageState {
 }
 
 class OnDiaryUpdatepage extends PageState {
-  final Diary diary;
+  final String diaryTitle;
+  final String diaryBody;
+  final String diaryId;
+  final String userId;
 
-  OnDiaryUpdatepage({this.diary});
+  OnDiaryUpdatepage(
+      {this.diaryTitle, this.diaryBody, this.diaryId, this.userId});
+}
+
+class OnDiaryShowPage extends PageState {
+  final String diaryId;
+  final String userId;
+
+  OnDiaryShowPage(this.diaryId, this.userId);
 }

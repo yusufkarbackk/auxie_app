@@ -95,11 +95,12 @@ class SignUpPage extends StatelessWidget {
                             height: 50,
                             child: RaisedButton(
                               onPressed: () async {
-                                User result = await AuthServices.signUp(
-                                    usernameController.text,
-                                    emailController.text,
-                                    phoneNumberController.text,
-                                    passwordController.text);
+                                SignInSignUpResult result =
+                                    await AuthServices.signUp(
+                                        usernameController.text,
+                                        emailController.text,
+                                        phoneNumberController.text,
+                                        passwordController.text);
                               },
                               color: auxieOrange,
                               child: Center(

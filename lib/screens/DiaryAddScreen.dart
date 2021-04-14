@@ -22,57 +22,107 @@ class _DiaryAddScreenState extends State<DiaryAddScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: auxieWhite,
-        body: SafeArea(
-            child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Center(
-            child: Column(
+      home: WillPopScope(
+        onWillPop: () async {
+          context.bloc<PageBloc>().add(GoToDiaryPage(widget.id));
+          return;
+        },
+        child: Scaffold(
+          backgroundColor: auxieBlue,
+          body: SafeArea(
+              child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: ListView(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: TextField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                          hintText: "Enter your note title",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          fillColor: Colors.white,
-                          filled: true)),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  height: 100,
-                  child: TextField(
-                    decoration: InputDecoration(
-                        hintText: "Enter your note",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                    keyboardType: TextInputType.multiline,
-                    expands: true,
-                    maxLines: null,
-                    minLines: null,
-                    controller: bodyController,
-                  ),
-                ),
-                RaisedButton(
-                  onPressed: () async {
-                    Diary diary = Diary(
-                        userId: widget.id.toString(),
-                        body: bodyController.text,
-                        title: titleController.text);
-                    await DiaryServices.createDiary(diary);
-                    context.bloc<PageBloc>().add(GoToDiaryPage(widget.id));
-                  },
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlocBuilder<UserBloc, UserState>(
+                      builder: (context, userState) {
+                        if (userState is UserLoaded) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Hello,",
+                                  style:
+                                      titledText.copyWith(color: Colors.white)),
+                              Text(userState.user.name,
+                                  style:
+                                      titledText.copyWith(color: Colors.white)),
+                              Text("How Was Your Day?",
+                                  style:
+                                      titledText.copyWith(color: Colors.white))
+                            ],
+                          );
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      child: TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              hintText: "Enter your diary title",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              fillColor: Colors.white,
+                              filled: true)),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      height: 250,
+                      child: TextField(
+                        decoration: InputDecoration(
+                            hintText: "Enter your diary",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            fillColor: Colors.white,
+                            filled: true),
+                        keyboardType: TextInputType.multiline,
+                        expands: true,
+                        maxLines: null,
+                        minLines: null,
+                        controller: bodyController,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: RaisedButton(
+                          onPressed: () async {
+                            Diary diary = Diary(
+                                userId: widget.id.toString(),
+                                body: bodyController.text,
+                                title: titleController.text);
+                            await DiaryServices.createDiary(diary);
+                            context
+                                .bloc<PageBloc>()
+                                .add(GoToDiaryPage(widget.id));
+                          },
+                          color: auxieGreen,
+                          child: Center(
+                              child: Text("Save",
+                                  style:
+                                      plainText.copyWith(color: Colors.white))),
+                        ),
+                      ),
+                    )
+                  ],
                 )
               ],
             ),
-          ),
-        )),
+          )),
+        ),
       ),
     );
   }

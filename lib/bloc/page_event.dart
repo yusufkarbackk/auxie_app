@@ -28,7 +28,18 @@ class GoToDiaryAddPage extends PageEvent {
 }
 
 class GoToDiaryUpdatePage extends PageEvent {
-  final Diary diary;
+  final String diaryTitle;
+  final String diaryBody;
+  final String diaryId;
+  final String userId;
 
-  GoToDiaryUpdatePage({this.diary});
+  GoToDiaryUpdatePage(
+      {this.diaryTitle, this.diaryBody, this.diaryId, this.userId});
+}
+
+class GoToDiaryShowPage extends PageEvent {
+  final String diaryId;
+  final String userId;
+
+  GoToDiaryShowPage(this.diaryId, this.userId);
 }

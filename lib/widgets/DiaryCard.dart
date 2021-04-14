@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
 import '../shared/SharedStyle.dart';
-import '../screens/DiaryUpdateScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Diary.dart';
 
 class DiaryCard extends StatelessWidget {
-  final Diary diary;
+  final String title;
+  final String body;
   final Function onEdit;
   final Function onDelete;
 
-  DiaryCard({this.diary, this.onDelete, this.onEdit});
-  CollectionReference notes = FirebaseFirestore.instance.collection("notes");
+  DiaryCard({this.title, this.body, this.onDelete, this.onEdit});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 250,
+      height: 200,
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       decoration: BoxDecoration(
-          color: auxieGreen,
+          color: auxieBlue,
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(diary.title,
+        Text(title,
             style: titledText.copyWith(color: auxieWhite),
             maxLines: 5,
             overflow: TextOverflow.ellipsis),
@@ -31,24 +28,27 @@ class DiaryCard extends StatelessWidget {
           height: 10,
         ),
         Expanded(
-          child: Text(
-            diary.body,
-            style: plainText.copyWith(color: auxieWhite),
-            maxLines: 5,
-            overflow: TextOverflow.ellipsis,
+          child: Container(
+            child: Text(
+              body,
+              style: plainText.copyWith(color: auxieWhite),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             GestureDetector(
-                onTap: () {
-                  if (onEdit != null) {
-                    onEdit();
-                  }
-                  ;
-                },
-                child: Icon(Icons.edit)),
+              onTap: () {
+                if (onEdit != null) {
+                  onEdit();
+                }
+                ;
+              },
+              child: Icon(Icons.edit, color: auxieOrange, size: 30),
+            ),
             SizedBox(width: 15),
             GestureDetector(
                 onTap: () {
@@ -56,7 +56,14 @@ class DiaryCard extends StatelessWidget {
                     onDelete();
                   }
                 },
-                child: Icon(Icons.delete))
+                child: Container(
+                    width: 50,
+                    height: 50,
+                    child: Icon(
+                      Icons.delete,
+                      color: auxieOrange,
+                      size: 30,
+                    )))
           ],
         )
       ]),
