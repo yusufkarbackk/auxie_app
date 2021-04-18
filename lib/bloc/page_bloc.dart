@@ -35,6 +35,8 @@ class PageBloc extends Bloc<PageEvent, PageState> {
           userId: event.userId);
     } else if (event is GoToDiaryShowPage) {
       yield OnDiaryShowPage(event.diaryId, event.userId);
+    } else if (event is GoToCalmYourselfPage) {
+      yield OnCalmYourselfPage(event.id);
     }
   }
 }

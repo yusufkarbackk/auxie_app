@@ -47,3 +47,9 @@ class OnDiaryShowPage extends PageState {
 
   OnDiaryShowPage(this.diaryId, this.userId);
 }
+
+class OnCalmYourselfPage extends PageState {
+  final String id;
+
+  OnCalmYourselfPage(this.id);
+}

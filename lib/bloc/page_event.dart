@@ -43,3 +43,9 @@ class GoToDiaryShowPage extends PageEvent {
 
   GoToDiaryShowPage(this.diaryId, this.userId);
 }
+
+class GoToCalmYourselfPage extends PageEvent {
+  final String id;
+
+  GoToCalmYourselfPage(this.id);
+}

@@ -39,10 +39,10 @@ class _DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
         return;
       },
       child: Scaffold(
-        backgroundColor: auxieWhite,
+        backgroundColor: auxieBlue,
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 24),
             child: Center(
               child: Column(
                 children: [
@@ -64,6 +64,8 @@ class _DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
                         height: 100,
                         child: TextField(
                           decoration: InputDecoration(
+                              fillColor: auxieWhite,
+                              filled: true,
                               hintText: "Enter your note",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20))),

@@ -21,12 +21,13 @@ class AuthServices {
       String phoneNumber, String password) async {
     try {
       auth.UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password); //creat auth account
+          email: email, password: password); //create auth account
 
       User firebaseUser = result.user.convertToUser(
           name: userName,
           phoneNumber:
-              phoneNumber); //firebaseUser extension for inserting signup data into user model
+              phoneNumber
+              ); //firebaseUser extension for inserting signup data into user model
 
       await UserServices.updateUser(firebaseUser);
       /*

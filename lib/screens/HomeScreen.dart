@@ -1,6 +1,4 @@
 import 'package:auxie_app/bloc/page_bloc.dart';
-import 'package:auxie_app/services/DiaryServices.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../shared/SharedStyle.dart';
@@ -8,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/QuickActButton.dart';
 import '../widgets/WebinarBanner.dart';
 import 'CalmYourselfScreen.dart';
-import 'DiaryScreen.dart';
 import '../services/AuthServices.dart';
 import '../bloc/user_bloc.dart';
 
@@ -28,19 +25,42 @@ class MyHomePage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Hello,",
-                      style: GoogleFonts.poppins(
-                          textStyle:
-                              TextStyle(fontSize: 22, color: Colors.black))),
-                  BlocBuilder<UserBloc, UserState>(
-                    builder: (context, userState) {
-                      if (userState is UserLoaded) {
-                        return Text(userState.user.name,
-                            style: titledText.copyWith(fontSize: 26));
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: 100,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Hello,",
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: 22, color: Colors.black))),
+                            BlocBuilder<UserBloc, UserState>(
+                              builder: (context, userState) {
+                                if (userState is UserLoaded) {
+                                  return Text(userState.user.name,
+                                      style: titledText.copyWith(fontSize: 26));
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          width: 40,
+                          height: 40,
+                          child: Icon(
+                            Icons.person,
+                            color: auxieBlue,
+                            size: 40,
+                          ))
+                    ],
                   ),
                   SizedBox(
                     height: 10,
@@ -89,7 +109,7 @@ class MyHomePage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            CalmYourselfScreen()));
+                                            CalmYourselfScreen(id)));
                               },
                             ),
                             SizedBox(width: 10),
@@ -99,11 +119,9 @@ class MyHomePage extends StatelessWidget {
                                 icon: Icons.self_improvement,
                               ),
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CalmYourselfScreen()));
+                                context
+                                    .bloc<PageBloc>()
+                                    .add(GoToCalmYourselfPage(id));
                               },
                             ),
                             SizedBox(width: 10),

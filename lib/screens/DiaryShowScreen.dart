@@ -13,6 +13,7 @@ class DiaryShowScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: WillPopScope(
         onWillPop: () async {
           context.bloc<PageBloc>().add(GoToDiaryPage(userId));
@@ -22,16 +23,26 @@ class DiaryShowScreen extends StatelessWidget {
           backgroundColor: auxieWhite,
           body: SafeArea(
             child: Container(
+              margin: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
               child: ListView(
                 children: [
                   StreamBuilder<DocumentSnapshot>(
                       stream: DiaryServices.getOneDiary(diaryId),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Column(children: [
-                            Text(snapshot.data.data()['title']),
-                            Text(snapshot.data.data()['body']),
-                          ]);
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data.data()['title'],
+                                  style: titledText.copyWith(fontSize: 26),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text(snapshot.data.data()['body'],
+                                    style: plainText.copyWith()),
+                              ]);
                         }
                         return Container(
                           child: CircularProgressIndicator(),

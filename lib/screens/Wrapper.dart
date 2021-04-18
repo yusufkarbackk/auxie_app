@@ -1,5 +1,6 @@
 import 'package:auxie_app/bloc/page_bloc.dart';
 import 'package:auxie_app/bloc/user_bloc.dart';
+import 'package:auxie_app/screens/CalmYourselfScreen.dart';
 import 'package:auxie_app/screens/DiaryAddScreen.dart';
 import 'package:auxie_app/screens/DiaryScreen.dart';
 import 'package:auxie_app/screens/DiaryShowScreen.dart';
@@ -45,7 +46,10 @@ class Wrapper extends StatelessWidget {
                                     pageState.diaryId,
                                     pageState.userId)
                                 : (pageState is OnDiaryShowPage)
-                                    ? DiaryShowScreen(pageState.diaryId, pageState.userId)
-                                    : MyHomePage(id: firebaseUser.uid));
+                                    ? DiaryShowScreen(
+                                        pageState.diaryId, pageState.userId)
+                                    : (pageState is OnCalmYourselfPage)
+                                        ? CalmYourselfScreen(pageState.id)
+                                        : MyHomePage(id: firebaseUser.uid));
   }
 }
