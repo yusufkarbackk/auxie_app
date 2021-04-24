@@ -27,7 +27,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return MaterialApp(
       home: WillPopScope(
         onWillPop: () async {
-          context.bloc<PageBloc>().add(GoToMainPage(widget.id));
+          context.bloc<PageBloc>().add(GoToMainPage());
           return;
         },
         child: Scaffold(

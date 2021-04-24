@@ -1,4 +1,5 @@
 import 'package:auxie_app/services/UserServices.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import '../extensions/FirebaseUserExtension.dart';
 import '../models/User.dart';
@@ -26,8 +27,7 @@ class AuthServices {
       User firebaseUser = result.user.convertToUser(
           name: userName,
           phoneNumber:
-              phoneNumber
-              ); //firebaseUser extension for inserting signup data into user model
+              phoneNumber); //firebaseUser extension for inserting signup data into user model
 
       await UserServices.updateUser(firebaseUser);
       /*
@@ -36,8 +36,7 @@ class AuthServices {
            */
       return SignInSignUpResult(user: firebaseUser);
     } catch (e) {
-      print(e.toString());
-      return null;
+      return SignInSignUpResult(message: e.toString().split(',')[1]);
     }
   }
 
@@ -46,14 +45,16 @@ class AuthServices {
     try {
       auth.UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password); // sign in with your account
-      User firebaseUser = await result.user.fromFireStore();
+      User user = await result.user.fromFireStore();
+
       /* 
         firbaseUser extension to get the user data
       */
-      return SignInSignUpResult(user: firebaseUser);
+      return SignInSignUpResult(user: user, hasil: result.toString());
     } catch (e) {
-      print(e.toString());
-      return SignInSignUpResult(message: e.toString().split(',')[1]);
+      String split1 = e.toString().split("]")[1];
+
+      return SignInSignUpResult(message: split1);
     }
   }
 
@@ -64,9 +65,15 @@ class AuthServices {
   static Stream<auth.User> get firbaseUserStream => _auth.authStateChanges();
 }
 
-class SignInSignUpResult {
+class SignInSignUpResult extends Equatable {
   final User user;
   final String message;
+  final auth.User pesan;
+  final String hasil;
 
-  SignInSignUpResult({this.message, this.user});
+  SignInSignUpResult({this.message, this.user, this.pesan, this.hasil});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [user, message, pesan, hasil];
 }

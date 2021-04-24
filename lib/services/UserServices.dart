@@ -6,11 +6,10 @@ class UserServices {
       FirebaseFirestore.instance.collection("users");
 
   static Future<void> updateUser(User user) async {
-    _userCollection.add({
+    _userCollection.doc(user.id).set({
       "email": user.email,
       "name": user.name,
       "phoneNumber": user.phoneNumber,
-      "userId": user.id
     }); // a function to insert or update user data
   }
 

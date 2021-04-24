@@ -12,7 +12,7 @@ class OnSplashPage extends PageState {}
 class OnMainPage extends PageState {
   final String id;
 
-  OnMainPage(this.id);
+  OnMainPage({this.id});
 }
 
 class OnSignUpPage extends PageState {}
@@ -52,4 +52,10 @@ class OnCalmYourselfPage extends PageState {
   final String id;
 
   OnCalmYourselfPage(this.id);
+}
+
+class OnProfilePage extends PageState {
+  final String id;
+
+  OnProfilePage(this.id);
 }

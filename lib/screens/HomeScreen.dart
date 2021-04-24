@@ -55,10 +55,15 @@ class MyHomePage extends StatelessWidget {
                       Container(
                           width: 40,
                           height: 40,
-                          child: Icon(
-                            Icons.person,
-                            color: auxieBlue,
-                            size: 40,
+                          child: GestureDetector(
+                            onTap: () async {
+                              context.bloc<PageBloc>().add(GoToProfilePage(id));
+                            },
+                            child: Icon(
+                              Icons.person,
+                              color: auxieBlue,
+                              size: 40,
+                            ),
                           ))
                     ],
                   ),
@@ -109,7 +114,7 @@ class MyHomePage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            CalmYourselfScreen(id)));
+                                            CalmYourselfScreen()));
                               },
                             ),
                             SizedBox(width: 10),

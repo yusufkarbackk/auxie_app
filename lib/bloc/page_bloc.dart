@@ -18,7 +18,7 @@ class PageBloc extends Bloc<PageEvent, PageState> {
     if (event is GoToSplashPage) {
       yield OnSplashPage();
     } else if (event is GoToMainPage) {
-      yield OnMainPage(event.id);
+      yield OnMainPage(id: event.id);
     } else if (event is GoToSignUpPage) {
       yield OnSignUpPage();
     } else if (event is GoToSignInPage) {
@@ -37,6 +37,8 @@ class PageBloc extends Bloc<PageEvent, PageState> {
       yield OnDiaryShowPage(event.diaryId, event.userId);
     } else if (event is GoToCalmYourselfPage) {
       yield OnCalmYourselfPage(event.id);
+    } else if (event is GoToProfilePage) {
+      yield OnProfilePage(event.id);
     }
   }
 }

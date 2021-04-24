@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../screens/LoginPage.dart';
 import 'SplashPage.dart';
 import 'SignUpPage.dart';
+import 'ProfileScreen.dart';
 
 class Wrapper extends StatelessWidget {
   @override
@@ -23,7 +24,7 @@ class Wrapper extends StatelessWidget {
       context.bloc<PageBloc>().add(GoToSplashPage());
     } else {
       context.bloc<UserBloc>().add(LoadUser(firebaseUser.uid));
-      context.bloc<PageBloc>().add(GoToMainPage(firebaseUser.uid));
+      context.bloc<PageBloc>().add(GoToMainPage(id:firebaseUser.uid));
     }
 
     return BlocBuilder<PageBloc, PageState>(
@@ -49,7 +50,9 @@ class Wrapper extends StatelessWidget {
                                     ? DiaryShowScreen(
                                         pageState.diaryId, pageState.userId)
                                     : (pageState is OnCalmYourselfPage)
-                                        ? CalmYourselfScreen(pageState.id)
-                                        : MyHomePage(id: firebaseUser.uid));
+                                        ? CalmYourselfScreen()
+                                        : (pageState is OnProfilePage)
+                                            ? ProfileScreen(pageState.id)
+                                            : MyHomePage(id: firebaseUser.uid));
   }
 }

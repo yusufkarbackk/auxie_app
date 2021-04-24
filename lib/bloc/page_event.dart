@@ -8,7 +8,7 @@ class GoToSplashPage extends PageEvent {}
 class GoToMainPage extends PageEvent {
   final String id;
 
-  GoToMainPage(this.id);
+  GoToMainPage({this.id});
 }
 
 class GoToSignUpPage extends PageEvent {}
@@ -48,4 +48,10 @@ class GoToCalmYourselfPage extends PageEvent {
   final String id;
 
   GoToCalmYourselfPage(this.id);
+}
+
+class GoToProfilePage extends PageEvent {
+  final String id;
+
+  GoToProfilePage(this.id);
 }

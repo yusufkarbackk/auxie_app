@@ -5,9 +5,7 @@ import '../shared/SharedStyle.dart';
 import '../widgets/CalmYourselfCard.dart';
 
 class CalmYourselfScreen extends StatefulWidget {
-  final String id;
-
-  CalmYourselfScreen(this.id);
+  
   @override
   _CalmYourselfScreenState createState() => _CalmYourselfScreenState();
 }
@@ -18,7 +16,7 @@ class _CalmYourselfScreenState extends State<CalmYourselfScreen> {
     return MaterialApp(
       home: WillPopScope(
         onWillPop: () async {
-          context.bloc<PageBloc>().add(GoToMainPage(widget.id));
+          context.bloc<PageBloc>().add(GoToMainPage());
           return;
         },
         child: Scaffold(

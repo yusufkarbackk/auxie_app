@@ -3,13 +3,23 @@ import '../services/AuthServices.dart';
 import '../shared/SharedStyle.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/page_bloc.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flushbar/flushbar.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool isSignIn = false;
+  bool isEmailValid = false;
+  bool isPasswordValid = false;
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async {
@@ -44,10 +54,14 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 24),
                           child: TextField(
-                            onChanged: (email) {},
+                            onChanged: (text) {
+                              setState(() {
+                                isEmailValid = EmailValidator.validate(text);
+                              });
+                            },
                             controller: emailController,
                             decoration: InputDecoration(
                                 hintText: "Email",
@@ -61,6 +75,11 @@ class LoginPage extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: TextField(
+                            onChanged: (text) {
+                              setState(() {
+                                isPasswordValid = text.length >= 6;
+                              });
+                            },
                             obscureText: true,
                             controller: passwordController,
                             decoration: InputDecoration(
@@ -73,22 +92,49 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                          child: RaisedButton(
-                            onPressed: () async {
-                              await AuthServices.signIn(
-                                  emailController.text, passwordController.text);
-                            },
-                            color: auxieOrange,
-                            padding: EdgeInsets.only(
-                                left: 100, right: 100, top: 15, bottom: 15),
-                            shape: StadiumBorder(),
-                            child: Text(
-                              "Sign In",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 24),
+                          child: isSignIn
+                              ? CircularProgressIndicator()
+                              : FloatingActionButton(
+                                  child: Icon(Icons.arrow_forward,
+                                      color: isEmailValid && isPasswordValid
+                                          ? Colors.white
+                                          : Color(0xFFBEBEBE)),
+                                  backgroundColor:
+                                      isEmailValid && isPasswordValid
+                                          ? auxieOrange
+                                          : Color(0xFFE4E4E4),
+                                  onPressed: isEmailValid && isPasswordValid
+                                      ? () async {
+                                          setState(() {
+                                            isSignIn = true;
+                                          });
+                                          SignInSignUpResult result =
+                                              await AuthServices.signIn(
+                                                  emailController.text,
+                                                  passwordController.text);
+
+                                          if (result.hasil == null) {
+                                            print(result.message);
+                                            setState(() {
+                                              isSignIn = false;
+                                            });
+                                            
+                                            Flushbar(
+                                              duration: Duration(seconds: 4),
+                                              flushbarPosition:
+                                                  FlushbarPosition.TOP,
+                                              backgroundColor:
+                                                  Color(0xFFFF5C83),
+                                              message: result.message,
+                                            )..show(context);
+                                          } else {
+                                            print(result.hasil);
+                                          }
+                                        }
+                                      : null,
+                                ),
                         )
                       ],
                     ),
