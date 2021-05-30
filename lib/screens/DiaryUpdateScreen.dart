@@ -79,6 +79,10 @@ class _DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
                     ],
                   ),
                   RaisedButton(
+                    color: auxieGreen,
+                    child: Center(
+                        child: Text("Save",
+                            style: plainText.copyWith(color: Colors.white))),
                     onPressed: () async {
                       DiaryServices.diaryCollection.doc(widget.diaryId).update({
                         "title": titleController.text,

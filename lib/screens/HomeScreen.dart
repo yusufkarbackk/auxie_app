@@ -144,9 +144,7 @@ class MyHomePage extends StatelessWidget {
                                 icon: Icons.question_answer),
                             SizedBox(width: 10),
                             GestureDetector(
-                              onTap: () async {
-                                await AuthServices.signOut();
-                              },
+                              onTap: () async {},
                               child: QuickActButton(
                                   action: "Appointment",
                                   icon: Icons.medical_services_rounded),
