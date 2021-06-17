@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/QuickActButton.dart';
 import '../widgets/WebinarBanner.dart';
 import 'CalmYourselfScreen.dart';
-import '../services/AuthServices.dart';
 import '../bloc/user_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -139,12 +138,18 @@ class MyHomePage extends StatelessWidget {
                               },
                             ),
                             SizedBox(width: 10),
-                            QuickActButton(
-                                action: "Disscussion",
-                                icon: Icons.question_answer),
+                            GestureDetector(
+                              onTap: () async {
+                                context
+                                    .bloc<PageBloc>()
+                                    .add(GoToDisscusionPage());
+                              },
+                              child: QuickActButton(
+                                  action: "Disscussion",
+                                  icon: Icons.question_answer),
+                            ),
                             SizedBox(width: 10),
                             GestureDetector(
-                              onTap: () async {},
                               child: QuickActButton(
                                   action: "Appointment",
                                   icon: Icons.medical_services_rounded),

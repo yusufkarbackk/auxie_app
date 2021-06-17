@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import '../services/AuthServices.dart';
 import '../shared/SharedStyle.dart';
-import '../models/User.dart';
 import '../bloc/blocs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flushbar/flushbar.dart';

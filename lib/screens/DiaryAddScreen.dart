@@ -1,7 +1,6 @@
 import 'package:auxie_app/bloc/user_bloc.dart';
 import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Diary.dart';
 import '../services/DiaryServices.dart';
 import '../bloc/blocs.dart';

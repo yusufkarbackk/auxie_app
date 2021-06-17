@@ -55,3 +55,5 @@ class GoToProfilePage extends PageEvent {
 
   GoToProfilePage(this.id);
 }
+
+class GoToDisscusionPage extends PageEvent {}

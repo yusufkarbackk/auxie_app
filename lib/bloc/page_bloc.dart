@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import '../models/Diary.dart';
 
 part 'page_event.dart';
 part 'page_state.dart';
@@ -39,6 +38,8 @@ class PageBloc extends Bloc<PageEvent, PageState> {
       yield OnCalmYourselfPage(event.id);
     } else if (event is GoToProfilePage) {
       yield OnProfilePage(event.id);
+    } else if (event is GoToDisscusionPage) {
+      yield OnDisscusionPage();
     }
   }
 }

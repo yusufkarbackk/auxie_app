@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/DiaryCard.dart';
 import '../bloc/page_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../models/Diary.dart';
 
 class DiaryScreen extends StatefulWidget {
   final String id;

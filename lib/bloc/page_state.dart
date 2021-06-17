@@ -59,3 +59,6 @@ class OnProfilePage extends PageState {
 
   OnProfilePage(this.id);
 }
+
+class OnDisscusionPage extends PageState {}
+

@@ -5,9 +5,6 @@ class DiaryServices {
   static CollectionReference diaryCollection =
       FirebaseFirestore.instance.collection("diaries");
 
-  static DocumentReference doc_ref =
-      FirebaseFirestore.instance.collection("diaries").doc();
-
   static Future<void> createDiary(Diary diary) async {
     await diaryCollection.add(
         {"userId": diary.userId, "title": diary.title, "body": diary.body});
