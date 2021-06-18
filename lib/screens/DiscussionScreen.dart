@@ -11,19 +11,9 @@ class DiscussionScreen extends StatelessWidget {
         return;
       },
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => DiscussionAddScreen());
-          },
-          backgroundColor: auxieGreen,
-          child: Icon(Icons.add),
-        ),
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            padding: EdgeInsets.symmetric(vertical: 24, horizontal: 5),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: ListView(
@@ -42,11 +32,11 @@ class DiscussionScreen extends StatelessWidget {
                         final text = discussion.data()['title'];
                         final time = discussion.data()['time'];
                         discussionList.add(DiscussionContent(
-                          text: text,
-                        ));
+                            text: text, discussionId: discussion.id));
                       }
                       return Column(
-                        children: discussionList,mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: discussionList,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       );
                     } else if (snapshot.connectionState ==
                         ConnectionState.waiting) {
