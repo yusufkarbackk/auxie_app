@@ -26,6 +26,7 @@ class DiscussionServices {
     await _commentsCollection.add({
       "discussionId": comment.discussionId,
       "comment": comment.comment,
+      "time": comment.time.millisecondsSinceEpoch
     });
   }
 

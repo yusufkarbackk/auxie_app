@@ -1,5 +1,4 @@
-import 'package:auxie_app/widgets/CommentWidget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auxie_app/services/CommentServices.dart';
 import 'package:flutter/material.dart';
 import 'package:auxie_app/shared/SharedStyle.dart';
 import 'package:auxie_app/services/DiscussionServices.dart';
@@ -17,13 +16,13 @@ class DiscussionContent extends StatefulWidget {
 
 class _DiscussionContentState extends State<DiscussionContent> {
   TextEditingController commentController = TextEditingController();
+  bool isViewAll = false;
+  int commentCount;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.symmetric(
-        vertical: 12,
-      ),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 14),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -44,38 +43,11 @@ class _DiscussionContentState extends State<DiscussionContent> {
           SizedBox(
             height: 22,
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: DiscussionServices.getComments(widget.discussionId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final comments = snapshot.data.docs;
-                List<CommentWidget> commentList = [];
-                for (var comment in comments) {
-                  Comment commentText =
-                      Comment(comment: comment.data()["comment"]);
-                  commentList.add(CommentWidget(
-                    comment: commentText,
-                  ));
-                }
-                return Column(
-                  children: commentList,
-                );
-              } else if (!snapshot.hasData) {
-                return Container(
-                    child: Center(
-                  child: Text("Error gettting comments"),
-                ));
-              } else {
-                return Container(
-                  width: 40,
-                  height: 40,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-            },
+          //NOTE: COMMENT SECTION
+          CommentServices(
+            id: widget.discussionId,
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -84,7 +56,8 @@ class _DiscussionContentState extends State<DiscussionContent> {
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: TextField(
                     controller: commentController,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                   ),
                 ),
               ),
@@ -92,7 +65,8 @@ class _DiscussionContentState extends State<DiscussionContent> {
                 onTap: () async {
                   Comment comment = Comment(
                       discussionId: widget.discussionId,
-                      comment: commentController.text);
+                      comment: commentController.text,
+                      time: DateTime.now());
                   await DiscussionServices.createComment(comment);
                   commentController.text = "";
                 },
